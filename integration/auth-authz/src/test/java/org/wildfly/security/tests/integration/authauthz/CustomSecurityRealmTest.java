@@ -27,6 +27,7 @@ import org.wildfly.extras.creaper.core.online.OnlineManagementClient;
 import org.wildfly.extras.creaper.core.online.operations.admin.Administration;
 import org.wildfly.security.tests.common.authauthz.HttpAuthenticationMechanism;
 import org.wildfly.security.tests.common.authauthz.SaslAuthenticationMechanism;
+import org.wildfly.security.tests.common.authauthz.TestIdentities;
 
 /**
  * Variant of the {@code AbstractAuthenticationSuite} to test the custom security realm.
@@ -95,7 +96,7 @@ public class CustomSecurityRealmTest extends AbstractAuthenticationSuite {
     public static void createAndDeployCustomRealmModuleJar(OnlineManagementClient managementClient, String moduleName) throws IOException {
         JavaArchive customRealmModuleContent = ShrinkWrap.create(JavaArchive.class, moduleName + ".jar")
                 .addAsResource(new StringAsset("Dependencies: org.wildfly.security"), "META-INF/MANIFEST.MF")
-                .addClass(TestCustomSecurityRealm.class);
+                .addClasses(TestCustomSecurityRealm.class, TestIdentities.class);
         File customRealmModuleJar = new File(moduleName + ".jar");
         customRealmModuleContent.as(ZipExporter.class).exportTo(customRealmModuleJar, true);
 

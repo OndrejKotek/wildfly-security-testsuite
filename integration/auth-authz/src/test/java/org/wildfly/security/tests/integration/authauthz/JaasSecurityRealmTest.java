@@ -28,6 +28,7 @@ import org.wildfly.extras.creaper.core.online.OnlineManagementClient;
 import org.wildfly.extras.creaper.core.online.operations.admin.Administration;
 import org.wildfly.security.tests.common.authauthz.HttpAuthenticationMechanism;
 import org.wildfly.security.tests.common.authauthz.SaslAuthenticationMechanism;
+import org.wildfly.security.tests.common.authauthz.TestIdentities;
 
 /**
  * Variant of the {@code AbstractAuthenticationSuite} to test the JAAS security realm.
@@ -55,8 +56,7 @@ public class JaasSecurityRealmTest extends AbstractAuthenticationSuite {
     static void registerSecurityRealm(OnlineManagementClient managementClient) throws IOException {
         JavaArchive jaasModuleContent = ShrinkWrap.create(JavaArchive.class, "testJaas.jar")
                 .addAsResource(new StringAsset("Dependencies: org.wildfly.security"), "META-INF/MANIFEST.MF")
-                .addClass(TestJaasLoginModule.class)
-                .addClass(TestJaasCallbackHandler.class);
+                .addClasses(TestJaasLoginModule.class, TestJaasCallbackHandler.class, TestIdentities.class);
         File jaasModuleJar = new File("testJaas.jar");
         jaasModuleContent.as(ZipExporter.class).exportTo(jaasModuleJar, true);
 

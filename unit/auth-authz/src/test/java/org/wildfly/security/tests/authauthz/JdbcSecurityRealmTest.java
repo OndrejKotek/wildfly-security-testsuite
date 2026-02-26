@@ -21,6 +21,7 @@ import org.wildfly.security.auth.server.SecurityRealm;
 import org.wildfly.security.password.interfaces.ClearPassword;
 import org.wildfly.security.tests.common.authauthz.HttpAuthenticationMechanism;
 import org.wildfly.security.tests.common.authauthz.SaslAuthenticationMechanism;
+import org.wildfly.security.tests.common.authauthz.TestIdentities.IdentityDefinition;
 
 /**
  * A {@code Suite} instance for testing against a {@code SecurityRealm} backed by a database.

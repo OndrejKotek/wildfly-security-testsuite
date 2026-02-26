@@ -24,9 +24,9 @@ import org.wildfly.extras.creaper.core.online.operations.admin.Administration;
 import org.wildfly.security.tests.common.authauthz.SaslAuthenticationMechanism;
 import org.wildfly.security.tests.common.authauthz.TestFamily;
 import org.wildfly.security.tests.common.authauthz.TestFilter;
+import org.wildfly.security.tests.common.authauthz.TestIdentities.IdentityDefinition;
 import org.wildfly.security.tests.common.authauthz.TransportType;
 import org.wildfly.security.tests.integration.authauthz.AbstractAuthenticationSuite;
-import org.wildfly.security.tests.integration.authauthz.AbstractAuthenticationSuite.IdentityDefinition;
 
 @ServerSetup(BruteForceAuthnProtectionSaslSuiteRunner.ConfigurationServerSetupTask.class)
 public class BruteForceAuthnProtectionSaslSuiteRunner extends AbstractSaslSuiteRunner {

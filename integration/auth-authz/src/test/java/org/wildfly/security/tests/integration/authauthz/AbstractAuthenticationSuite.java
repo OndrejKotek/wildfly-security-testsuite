@@ -7,9 +7,7 @@ package org.wildfly.security.tests.integration.authauthz;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -18,6 +16,8 @@ import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 import org.wildfly.security.tests.common.authauthz.HttpAuthenticationMechanism;
 import org.wildfly.security.tests.common.authauthz.SaslAuthenticationMechanism;
+import org.wildfly.security.tests.common.authauthz.TestIdentities;
+import org.wildfly.security.tests.common.authauthz.TestIdentities.IdentityDefinition;
 import org.wildfly.security.tests.integration.authauthz.runners.BruteForceAuthnProtectionHttpSuiteRunner;
 import org.wildfly.security.tests.integration.authauthz.runners.BruteForceAuthnProtectionSaslSuiteRunner;
 import org.wildfly.security.tests.integration.authauthz.runners.StandardHttpSuiteRunner;
@@ -36,8 +36,6 @@ public abstract class AbstractAuthenticationSuite {
     protected static final Path SERVER_CONFIG_DIR = Paths.get(System.getProperty("jboss.home")).toAbsolutePath()
             .resolve("standalone").resolve("configuration");
 
-    private static final String USERNAME_PATTERN = "user%d";
-    private static final String PASSWORD_PATTERN = "password%d";
     private static int NEXT_USER = 1;
 
     private static volatile SecurityRealmRegistrar securityRealmRegistrar;
@@ -74,19 +72,9 @@ public abstract class AbstractAuthenticationSuite {
     }
 
     static Stream<IdentityDefinition> obtainTestIdentities() {
-        // Register a lot of identities so each test can use it's own without
-        // state being contaminated from other tests.
-        List<IdentityDefinition> identities = new ArrayList<>(250);
-        for (int i = 1 ; i < 250 ; i++) {
-            identities.add(new IdentityDefinition(String.format(USERNAME_PATTERN , i),
-                    String.format(PASSWORD_PATTERN, i)));
-        }
-
         NEXT_USER = 1;
-        return identities.stream();
+        return TestIdentities.obtainTestIdentities();
     }
-
-    public record IdentityDefinition(String username, String password) {}
 
     public static IdentityDefinition nextIdentity() {
         int id = NEXT_USER++;
@@ -94,7 +82,7 @@ public abstract class AbstractAuthenticationSuite {
             throw new IllegalStateException("Exceeded available identities.");
         }
 
-        return new IdentityDefinition(String.format(USERNAME_PATTERN , id),
-                    String.format(PASSWORD_PATTERN, id));
+        return new IdentityDefinition(String.format(TestIdentities.USERNAME_PATTERN , id),
+                    String.format(TestIdentities.PASSWORD_PATTERN, id));
     }
 }
