@@ -22,6 +22,7 @@ import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
 import org.wildfly.security.auth.principal.NamePrincipal;
+import org.wildfly.security.tests.common.authauthz.TestIdentities;
 
 /**
  * A JAAS {@link LoginModule} backed by a {@link Map}.
@@ -37,7 +38,7 @@ public class TestJaasLoginModule implements LoginModule {
     public void initialize(Subject subject, CallbackHandler callbackHandler, Map<String, ?> sharedState, Map<String, ?> options) {
         this.subject = subject;
         this.callbackHandler = callbackHandler;
-        obtainTestIdentities().forEach(identity -> {
+        TestIdentities.obtainTestIdentities().forEach(identity -> {
             this.identities.put(identity.username(), identity.password().toCharArray());
         });
     }
@@ -80,19 +81,6 @@ public class TestJaasLoginModule implements LoginModule {
         this.subject.getPrincipals().clear();
         return true;
     }
-
-    // TODO move this to common module together with methods in AbstractAuthenticationSuite classes
-    static Stream<TestJaasLoginModule.IdentityDefinition> obtainTestIdentities() {
-        List<TestJaasLoginModule.IdentityDefinition> identities = new ArrayList<>(100);
-        for (int i = 1 ; i < 100 ; i++) {
-            identities.add(new TestJaasLoginModule.IdentityDefinition(String.format("user%d", i),
-                    String.format("password%d", i)));
-        }
-
-        return identities.stream();
-    }
-
-    record IdentityDefinition(String username, String password) {}
 
     // Elytron is case sensitive and the default mapper is from "groups" (to roles)
     private static class groups implements Principal {

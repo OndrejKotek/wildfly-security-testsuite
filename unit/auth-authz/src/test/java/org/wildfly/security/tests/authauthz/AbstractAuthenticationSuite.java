@@ -8,9 +8,7 @@ package org.wildfly.security.tests.authauthz;
 import java.io.IOException;
 import java.security.Provider;
 import java.security.Security;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -34,6 +32,8 @@ import org.wildfly.security.tests.authauthz.runners.StandardHttpSuiteRunner;
 import org.wildfly.security.tests.authauthz.runners.StandardSaslSuiteRunner;
 import org.wildfly.security.tests.common.authauthz.HttpAuthenticationMechanism;
 import org.wildfly.security.tests.common.authauthz.SaslAuthenticationMechanism;
+import org.wildfly.security.tests.common.authauthz.TestIdentities;
+import org.wildfly.security.tests.common.authauthz.TestIdentities.IdentityDefinition;
 
 /**
  * Base definition of the {@code Suite} of tests that will be used to run the authentication tests
@@ -150,16 +150,6 @@ public abstract class AbstractAuthenticationSuite {
     }
 
     static Stream<IdentityDefinition> obtainTestIdentities() {
-        // Register a lot of identities so each test can use it's own without
-        // state being contaminated from other tests.
-        List<IdentityDefinition> identities = new ArrayList<>(100);
-        for (int i = 0 ; i < 100 ; i++) {
-            identities.add(new IdentityDefinition(String.format("user%d", i),
-                    String.format("password%d", i)));
-        }
-
-        return identities.stream();
+        return TestIdentities.obtainTestIdentities();
     }
-
-    record IdentityDefinition(String username, String password) {}
 }

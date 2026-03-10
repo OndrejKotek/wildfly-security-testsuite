@@ -39,6 +39,7 @@ import org.wildfly.security.password.PasswordFactory;
 import org.wildfly.security.password.spec.ClearPasswordSpec;
 import org.wildfly.security.password.spec.DigestPasswordAlgorithmSpec;
 import org.wildfly.security.password.spec.PasswordSpec;
+import org.wildfly.security.tests.common.authauthz.TestIdentities;
 
 /**
  * A custom modifiable security realm {@link ModifiableSecurityRealm} backed by a {@link Map}.
@@ -48,7 +49,7 @@ public class TestCustomSecurityRealm implements ModifiableSecurityRealm {
     private final Map<String, char[]> identities = new HashMap<>();
 
     public TestCustomSecurityRealm() {
-        obtainTestIdentities().forEach(identity -> {
+        TestIdentities.obtainTestIdentities().forEach(identity -> {
             this.identities.put(identity.username(), identity.password().toCharArray());
         });
     }
@@ -157,17 +158,4 @@ public class TestCustomSecurityRealm implements ModifiableSecurityRealm {
             }
         };
     }
-
-    // TODO move this to common module together with methods in AbstractAuthenticationSuite classes
-    static Stream<TestCustomSecurityRealm.IdentityDefinition> obtainTestIdentities() {
-        List<TestCustomSecurityRealm.IdentityDefinition> identities = new ArrayList<>(100);
-        for (int i = 1 ; i < 100 ; i++) {
-            identities.add(new TestCustomSecurityRealm.IdentityDefinition(String.format("user%d", i),
-                    String.format("password%d", i)));
-        }
-
-        return identities.stream();
-    }
-
-    record IdentityDefinition(String username, String password) {}
 }

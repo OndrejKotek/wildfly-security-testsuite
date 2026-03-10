@@ -17,8 +17,8 @@ import org.junit.jupiter.api.TestFactory;
 import org.wildfly.security.tests.common.authauthz.SaslAuthenticationMechanism;
 import org.wildfly.security.tests.common.authauthz.TestFamily;
 import org.wildfly.security.tests.common.authauthz.TestFilter;
+import org.wildfly.security.tests.common.authauthz.TestIdentities.IdentityDefinition;
 import org.wildfly.security.tests.integration.authauthz.AbstractAuthenticationSuite;
-import org.wildfly.security.tests.integration.authauthz.AbstractAuthenticationSuite.IdentityDefinition;
 
 public class StandardSaslSuiteRunner extends AbstractSaslSuiteRunner {
 

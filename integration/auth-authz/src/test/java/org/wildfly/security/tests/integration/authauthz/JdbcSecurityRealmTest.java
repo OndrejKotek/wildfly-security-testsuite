@@ -24,6 +24,7 @@ import org.wildfly.extras.creaper.core.online.OnlineManagementClient;
 import org.wildfly.extras.creaper.core.online.operations.admin.Administration;
 import org.wildfly.security.tests.common.authauthz.HttpAuthenticationMechanism;
 import org.wildfly.security.tests.common.authauthz.SaslAuthenticationMechanism;
+import org.wildfly.security.tests.common.authauthz.TestIdentities.IdentityDefinition;
 
 /**
  * Variant of the {@code AbstractAuthenticationSuite} to test the JDBC security realm.
