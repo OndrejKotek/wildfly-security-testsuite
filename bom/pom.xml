@@ -33,7 +33,8 @@
 
   <properties>
     <version.io.smallrye.smallrye-common>2.14.0</version.io.smallrye.smallrye-common>
-    <version.io.undertow>2.3.23.Final</version.io.undertow>
+    <version.io.undertow>2.4.0.Final</version.io.undertow>
+    <version.io.undertow.ee>1.0.0.Final</version.io.undertow.ee>
     <version.jakarta.annotation.jakarta-annotation-api>2.1.1</version.jakarta.annotation.jakarta-annotation-api>
     <version.jakarta.authentication.jakarta.authentication-api>3.0.0</version.jakarta.authentication.jakarta.authentication-api>
     <version.jakarta.ejb.jakarta-ejb-api>4.0.1</version.jakarta.ejb.jakarta-ejb-api>
@@ -74,9 +75,9 @@
         </exclusions>
       </dependency>
       <dependency>
-        <groupId>io.undertow</groupId>
+        <groupId>io.undertow.ee</groupId>
         <artifactId>undertow-servlet</artifactId>
-        <version>${version.io.undertow}</version>
+        <version>${version.io.undertow.ee}</version>
         <exclusions>
           <exclusion>
             <groupId>*</groupId>
